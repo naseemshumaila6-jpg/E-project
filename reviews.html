@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TheatreShow.com | The Stage Awaits</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="icon" href="images/gold-theater-mask.png">
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Lato', sans-serif;
+        line-height: 1.6;
+        overflow-x: hidden;
+        background: linear-gradient(to top, maroon, black);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: 'Playfair Display', serif;
+        margin-bottom: 1rem;
+    }
+
+    /* =========================================
+           3. HEADER & NAVIGATION
+           ========================================= */
+    header {
+        background-color: #222;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 50px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        z-index: 1000;
+    }
+
+    /* logo section */
+    .logo {
+        display: flex;
+        align-items: center;
+    }
+
+    .logo img {
+        width: 50px;
+        height: 50px;
+        margin-right: 5px;
+    }
+
+    .logo h2 {
+        margin: 0;
+        line-height: 1;
+        font-size: 30px;
+        color: goldenrod;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 20px;
+        list-style: none;
+    }
+
+    .nav-item a {
+        text-decoration: none;
+        color: #e6d28a;
+        transition: 0.3s;
+        position: relative;
+        left: 30px;
+    }
+
+    .nav-item a::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -6px;
+        width: 0;
+        height: 2px;
+        background: goldenrod;
+        transition: width 0.3s ease;
+    }
+
+    .nav-item a:hover::after {
+        width: 100%;
+    }
+
+    /* Hover glow */
+    .nav-links a:hover {
+        color: whitesmoke;
+        text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+    }
+
+    .nav-item {
+        font-size: 0.95rem;
+        font-weight: 400;
+        cursor: pointer;
+        color: #ccc;
+    }
+
+    #menu-toggle {
+        display: none;
+    }
+
+    .menu-icon {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+    }
+
+    .menu-icon span {
+        width: 25px;
+        height: 3px;
+        background: goldenrod;
+        margin: 4px 0;
+        transition: 0.3s;
+    }
+
+    /* Alert */
+    .alert {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: crimson;
+        padding: 12px 25px;
+        border-radius: 30px;
+        box-shadow: 0 0 15px crimson;
+        transition: 0.5s;
+        z-index: 1000;
+        color: white;
+        font-weight: bold;
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .alert.show {
+        opacity: 1;
+        visibility: visible;
+        top: 50px;
+    }
+
+    /* Section */
+    .reviews-section {
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    h1 {
+        color: gold;
+        font-size: 2.6rem;
+        letter-spacing: 2px;
+        margin-top: 60px;
+        font-size: xx-large;
+
+        /* Gold glow effect */
+        text-shadow:
+            0 2px 6px rgba(0, 0, 0, 0.8),
+            0 0 20px rgba(212, 175, 55, 0.7),
+            0 0 40px rgba(212, 175, 55, 0.4);
+    }
+
+    .subtitle {
+        color: #ffffff;
+        margin-bottom: 30px;
+    }
+
+    /* Cards */
+    .reviews-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-bottom: 40px;
+    }
+
+    .review-card {
+        background: linear-gradient(145deg, #1a1a1a, #262626);
+        padding: 22px;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+        transition: 0.4s;
+    }
+
+    .review-card:hover {
+        transform: translateY(-8px) scale(1.02);
+    }
+
+    .review-card h3 {
+        color: gold;
+        margin-bottom: 10px;
+    }
+
+    .review-card p {
+        color: #ccc;
+        font-size: 0.9rem;
+    }
+
+    .review-card span {
+        display: block;
+        margin-top: 10px;
+        color: #aaa;
+    }
+
+    /* Form */
+    .form-card {
+        max-width: 480px;
+        margin: auto;
+        background: #1a1a1a;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 0 25px rgba(255, 0, 0, 0.15);
+    }
+
+    .form-card h2 {
+        color: gold;
+        margin-bottom: 20px;
+    }
+
+    form input,
+    form select,
+    form textarea {
+        width: 100%;
+        padding: 11px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        border: none;
+        background: #2a2a2a;
+        color: white;
+    }
+
+    form textarea {
+        resize: none;
+        height: 110px;
+    }
+
+    form button {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(45deg, darkred, red);
+        border-radius: 30px;
+        border: none;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    form button:hover {
+        box-shadow: 0 0 15px red;
+    }
+
+    .custom-select {
+        position: relative;
+        background-color: #2a2a2a;
+        border: 1px solid #444;
+        border-radius: 6px;
+        color: white;
+        margin-bottom: 15px;
+        cursor: pointer;
+    }
+
+    .custom-select .selected {
+        padding: 10px;
+        text-align: left;
+    }
+
+    .custom-select .options {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #222;
+        border: 1px solid #444;
+        border-radius: 6px;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 1000;
+        text-align: left;
+    }
+
+    .custom-select .options li {
+        padding: 8px;
+    }
+
+    .custom-select .options li:hover {
+        background: #333;
+    }
+
+    /* Footer */
+    footer {
+        background: #222;
+        padding: 50px 0 20px;
+        border-top: 1px solid #333;
+        margin-top: auto;
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        margin-bottom: 40px;
+    }
+
+    .footer-col h4 {
+        color: #fff;
+        font-weight: 700;
+        margin-bottom: 20px;
+        font-size: larger;
+    }
+
+    .footer-col p {
+        color: #eee;
+        line-height: 1.5;
+        font-size: 0.9rem;
+    }
+
+    /* Quick links list */
+    .footer-col ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer-col ul li a {
+        margin-bottom: 10px;
+        color: #aaa;
+        cursor: pointer;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .footer-col ul li a:hover {
+        color: goldenrod;
+    }
+    .text-center {
+        text-align: center;
+        font-size: 1rem;
+        color: #555;
+        padding-top: 20px;
+        margin-top: 20px;
+    }
+
+    @media (max-width: 900px) {
+        .menu-icon {
+            display: flex;
+            z-index: 1001;
+        }
+
+        /* Navbar container for toggle menu */
+        .navbar {
+            position: fixed;
+            top: 70px;
+            right: 0;
+            width: 75%;
+            max-width: 360px;
+            height: calc(100vh - 70px);
+            background: #222;
+            box-shadow: -4px 0 10px rgba(0, 0, 0, 0.6);
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 20px;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        .nav-links {
+            flex-direction: column;
+            width: 100%;
+            display: flex;
+            gap: 20px;
+            padding-top: 20px;
+        }
+        .nav-item a {
+            font-size: 1.2rem;
+            padding: 10px 0;
+            width: 100%;
+        }
+        #menu-toggle:checked~.navbar {
+            transform: translateX(0);
+        }
+        header {
+            padding: 10px 20px;
+        }
+             h1 {
+            font-size: 2.2rem;
+        }
+
+        .reviews-container {
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        }
+
+        .form-card {
+            max-width: 100%;
+            margin-top: 30px;
+        }
+    }
+    /* Mobile */
+    @media (max-width: 500px) {
+        h1 {
+            font-size: 1.9rem;
+        }
+
+        .alert {
+            font-size: 13px;
+            padding: 10px 18px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+        }
+        .reviews-container {
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        }
+
+        .form-card {
+            max-width: 100%;
+            margin-top: 30px;
+        }
+
+        .review-card {
+            padding: 18px;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.15);
+        }
+    }
+</style>
+
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <div class="logo">
+            <img src="images/gold-theater-mask.png" alt="logo">
+            <h2><strong>TheatreShow</strong></h2>
+        </div>
+        <input type="checkbox" id="menu-toggle">
+
+        <label for="menu-toggle" class="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+    <nav class="navbar">
+      <ul class="nav-links" id="nav-links">
+        <li class="nav-item"><a href="index.html" >Home</a></li>
+        <li class="nav-item"><a href="shows.html" >Shows</a></li>
+        <li class="nav-item"><a href="auditoriums.html" >Auditoriums</a></li>
+        <li class="nav-item"><a href="events.html" >Events</a></li>
+        <li class="nav-item"><a href="artists.html" >Artists</a></li>
+        <li class="nav-item"><a href="awards.html" >Awards</a></li>
+        <li class="nav-item"><a href="reviews.html" >Reviews</a></li>
+        <li class="nav-item"><a href="magazines.html" >Magazines</a></li>
+        <li class="nav-item"><a href="feedback.html" >Feedback</a></li>
+      </ul>
+    </nav>
+    </header>
+
+    <!-- Stylish Alert -->
+    <div class="alert" id="alertBox">
+        ❌ Name should contain letters only
+    </div>
+
+    <section class="reviews-section">
+        <h1>Theatre Speaks</h1>
+        <p class="subtitle">Critics' reviews and audience feedback</p>
+
+        <!-- Reviews -->
+        <div class="reviews-container" id="reviewsContainer">
+
+            <div class="review-card">
+                <h3>A Masterpiece in Modern Drama</h3>
+                <p>"The portrayal of existential crisis in the second act was haunting."</p>
+                <span>- The Daily Critics ⭐⭐⭐⭐⭐</span>
+            </div>
+
+            <div class="review-card">
+                <h3>Visual Spectacle</h3>
+                <p>"Lighting and set design transported us to 19th century Lahore beautifully."</p>
+                <span>- Arts Weekly ⭐⭐⭐⭐</span>
+            </div>
+
+            <div class="review-card">
+                <h3>Powerful Performances</h3>
+                <p>"Each actor delivered emotions with depth and authenticity."</p>
+                <span>- Theatre Journal ⭐⭐⭐⭐⭐</span>
+            </div>
+
+            <div class="review-card">
+                <h3>Emotionally Gripping</h3>
+                <p>"The final act left the audience silent and deeply moved."</p>
+                <span>- Audience Review ⭐⭐⭐⭐</span>
+            </div>
+
+        </div>
+
+        <!-- Form -->
+        <div class="form-card">
+            <h2>Write a Review</h2>
+            <form id="reviewForm">
+                <input type="text" id="name" placeholder="Your Name" required>
+                <input type="text" id="show" placeholder="Show Name" required>
+
+                <div class="custom-select" id="ratingSelect">
+                    <div class="selected">Select Rating</div>
+                    <ul class="options">
+                        <li data-value="5">⭐⭐⭐⭐⭐</li>
+                        <li data-value="4">⭐⭐⭐⭐</li>
+                        <li data-value="3">⭐⭐⭐</li>
+                        <li data-value="2">⭐⭐</li>
+                        <li data-value="1">⭐</li>
+                    </ul>
+                </div>
+                <input type="hidden" id="rating">
+
+                <textarea id="review" placeholder="Write your review..." required></textarea>
+                <button type="submit">Submit Review</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>TheatreShow.com</h4>
+                    <p style="color: #aaa;">Celebrating the art of performance across languages and cultures.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shows.html">Shows</a></li>
+                        <li><a href="auditoriums.html">Auditoriums</a></li>
+                        <li><a href="feedback.html">Feedback</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Our Mission</h4>
+                    <p style="color:#aaa;">
+                        Bringing live theatre experiences to audiences worldwide through innovation and passion.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="text-center" style="border-top: 1px solid #222; padding-top: 20px; color: #555; font-size: 0.8rem;">
+            &copy; 2026 TheatreShow.com. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let form = document.getElementById("reviewForm");
+        let reviewsContainer = document.getElementById("reviewsContainer");
+        let alertBox = document.getElementById("alertBox");
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            let name = document.getElementById("name").value;
+            let show = document.getElementById("show").value;
+            let rating = document.getElementById("rating").value;
+            let reviewText = document.getElementById("review").value;
+
+            // Name validation (no numbers)
+            if (/\d/.test(name)) {
+                showAlert();
+                return;
+            }
+
+            let card = document.createElement("div");
+            card.className = "review-card";
+
+            card.innerHTML = `
+        <h3>${show}</h3>
+        <p>"${reviewText}"</p>
+        <span>- ${name} ${"⭐".repeat(rating)}</span>
+    `;
+
+            reviewsContainer.prepend(card);
+            form.reset();
+        });
+
+        function showAlert() {
+            alertBox.classList.add("show");
+            setTimeout(() => {
+                alertBox.classList.remove("show");
+            }, 2500);
+        }
+
+        // Custom select for review rating
+        (function () {
+            const container = document.getElementById("ratingSelect");
+            const selected = container.querySelector(".selected");
+            const options = container.querySelectorAll("li");
+            const hiddenInput = document.getElementById("rating");
+
+            selected.addEventListener("click", () => {
+                const optionsList = container.querySelector(".options");
+                optionsList.style.display = optionsList.style.display === "block" ? "none" : "block";
+            });
+
+            options.forEach(option => {
+                option.addEventListener("click", () => {
+                    selected.textContent = option.textContent;
+                    hiddenInput.value = option.dataset.value;
+                    container.querySelector(".options").style.display = "none";
+                });
+            });
+
+            document.addEventListener("click", e => {
+                if (!container.contains(e.target)) {
+                    container.querySelector(".options").style.display = "none";
+                }
+            });
+        })();
+
+    </script>
+</body>
+
+</html>

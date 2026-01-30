@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TheatreShow.com | The Stage Awaits</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="icon" href="images/gold-theater-mask.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background: linear-gradient(to top, maroon, black);
+            padding-top: 70px;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1rem;
+        }
+
+        /* =========================================
+           3. HEADER & NAVIGATION
+           ========================================= */
+        header {
+            background-color: #222;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 50px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            z-index: 1000;
+        }
+
+        /* logo section */
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            margin-right: 5px;
+        }
+
+        .logo h2 {
+            margin: 0;
+            line-height: 1;
+            font-size: 30px;
+            color: goldenrod;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-item a {
+            text-decoration: none;
+            color: #e6d28a;
+            transition: 0.3s;
+            position: relative;
+            left: 30px;
+        }
+
+        .nav-item a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 0;
+            height: 2px;
+            background: goldenrod;
+            transition: width 0.3s ease;
+        }
+
+        .nav-item a:hover::after {
+            width: 100%;
+        }
+
+        /* Hover glow */
+        .nav-links a:hover {
+            color: whitesmoke;
+            text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+        }
+
+        .nav-item {
+            font-size: 0.95rem;
+            font-weight: 400;
+            cursor: pointer;
+            color: #ccc;
+        }
+
+        #menu-toggle {
+            display: none;
+        }
+
+        .menu-icon {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-icon span {
+            width: 25px;
+            height: 3px;
+            background: goldenrod;
+            margin: 4px 0;
+            transition: 0.3s;
+        }
+
+        /* Alert */
+        .alert {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: crimson;
+            padding: 12px 25px;
+            border-radius: 30px;
+            box-shadow: 0 0 15px crimson;
+            transition: 0.5s;
+            z-index: 1000;
+            color: white;
+            font-weight: bold;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .alert.show {
+            opacity: 1;
+            visibility: visible;
+            top: 50px;
+        }
+
+        .containerr {
+            width: 95%;
+            max-width: 550px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #242424;
+            border-radius: 14px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            text-align: center;
+            color: #f5c542;
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            background-color: #1b1b1b;
+            border: 1px solid #444;
+            border-radius: 6px;
+            color: white;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        #showTimeDisplay {
+            margin: 12px 0;
+            padding: 10px 12px;
+            color: #f1c40f;
+            background-color: #333;
+            border-left: 4px solid #f5c542;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Subtle glowing animation for theatre vibe */
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 10px gold, 0 0 20px rgba(255, 215, 0, 0.5);
+            }
+
+            100% {
+                box-shadow: 0 0 20px gold, 0 0 30px rgba(255, 215, 0, 0.7);
+            }
+        }
+
+        #eventSection,
+        #showSection {
+            display: none;
+        }
+
+        button {
+            background-color: #b22222;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #a11d1d;
+        }
+
+        .message-success,
+        .message-error {
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .message-success {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .message-error {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        /* Custom select */
+        .custom-select {
+            position: relative;
+            background-color: #1b1b1b;
+            border: 1px solid #444;
+            border-radius: 6px;
+            color: white;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        .custom-select .selected {
+            padding: 10px;
+        }
+
+        .custom-select .options {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 6px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .custom-select .options li {
+            padding: 8px;
+        }
+
+        .custom-select .options li:hover {
+            background: #333;
+        }
+
+        /* Footer */
+        footer {
+            background: #222;
+            padding: 50px 0 20px;
+            border-top: 1px solid #333;
+            margin-top: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-size: larger;
+        }
+
+        .footer-col p {
+            color: #eee;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        /* Quick links list */
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-col ul li a {
+            margin-bottom: 10px;
+            color: #aaa;
+            cursor: pointer;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: goldenrod;
+        }
+
+        .text-center {
+            text-align: center;
+            font-size: 1rem;
+            color: #555;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .menu-icon {
+                display: flex;
+                z-index: 1001;
+            }
+
+            /* Navbar container for toggle menu */
+            .navbar {
+                position: fixed;
+                top: 70px;
+                right: 0;
+                width: 75%;
+                max-width: 360px;
+                height: calc(100vh - 70px);
+                background: #222;
+                box-shadow: -4px 0 10px rgba(0, 0, 0, 0.6);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                padding: 20px;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                display: flex;
+                gap: 20px;
+                padding-top: 20px;
+            }
+
+            .nav-item a {
+                font-size: 1.2rem;
+                padding: 10px 0;
+                width: 100%;
+            }
+
+            #menu-toggle:checked~.navbar {
+                transform: translateX(0);
+            }
+
+            header {
+                padding: 10px 20px;
+            }
+
+            .containerr {
+                max-height: calc(100vh - 100px);
+                overflow-y: auto;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 500px) {
+            .alert {
+                font-size: 13px;
+                padding: 10px 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <div class="logo">
+            <img src="images/gold-theater-mask.png" alt="logo">
+            <h2><strong>TheatreShow</strong></h2>
+        </div>
+        <input type="checkbox" id="menu-toggle">
+
+        <label for="menu-toggle" class="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        <nav class="navbar">
+            <ul class="nav-links" id="nav-links">
+                <li class="nav-item"><a href="index.html">Home</a></li>
+                <li class="nav-item"><a href="shows.html">Shows</a></li>
+                <li class="nav-item"><a href="auditoriums.html">Auditoriums</a></li>
+                <li class="nav-item"><a href="events.html">Events</a></li>
+                <li class="nav-item"><a href="artists.html">Artists</a></li>
+                <li class="nav-item"><a href="awards.html">Awards</a></li>
+                <li class="nav-item"><a href="reviews.html">Reviews</a></li>
+                <li class="nav-item"><a href="magazines.html">Magazines</a></li>
+                <li class="nav-item"><a href="feedback.html">Feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Stylish Alert -->
+    <div class="alert" id="alertBox">
+        ❌ Name should contain letters only
+    </div>
+
+    <div class="containerr">
+        <h2>Ticket Booking</h2>
+
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+
+        <!-- Ticket Type Custom Select -->
+        <div class="custom-select" id="ticketTypeSelect">
+            <div class="selected">Select Ticket Type</div>
+            <ul class="options">
+                <li data-value="show">Show Ticket</li>
+                <li data-value="event">Event Ticket</li>
+            </ul>
+        </div>
+        <input type="hidden" id="ticketType">
+
+        <!-- Show Section -->
+        <div id="showSection">
+            <div class="custom-select" id="showSelect">
+                <div class="selected">Select Show</div>
+                <ul class="options">
+                    <li data-value="Awami Theatre Festival">Awami Theatre Festival</li>
+                    <li data-value="The Mother">The Mother</li>
+                    <li data-value="Jashan-e-Rekhta">Jashan-e-Rakhta</li>
+                    <li data-value="Macbeth">Macbeth</li>
+                    <li data-value="Romeo & Juliet">Romeo & Juliet</li>
+                    <li data-value="Shadowlands">Shadowlands</li>
+                    <li data-value="Saanp Seedhi">Saanp Seedhi</li>
+                    <li data-value="Ek Mulaqat">Ek Mulaqat</li>
+                    <li data-value="Park">Park</li>
+                </ul>
+            </div>
+            <input type="hidden" id="theater">
+
+            <div id="showTimeDisplay"></div>
+
+            <div class="custom-select" id="seatsSelect">
+                <div class="selected">Select Seats</div>
+                <ul class="options">
+                    <li data-value="1">1-5 Rows (Rs 1000)</li>
+                    <li data-value="2">6-10 Rows (Rs 800)</li>
+                </ul>
+            </div>
+            <input type="hidden" id="seats">
+        </div>
+
+        <!-- Event Section -->
+        <div id="eventSection">
+            <div class="custom-select" id="eventSelect">
+                <div class="selected">Select Event</div>
+                <ul class="options">
+                    <li data-value="Motherhood">Motherhood (Rs. 1500)</li>
+                    <li data-value="Parda">Parda (Free Entry)</li>
+                    <li data-value="Ahmed Jahanzaib Concert">Ahmed Jahanzaib Concert (Rs. 1500)</li>
+                    <li data-value="Chinese New Year">Chinese New Year (Free Entry)</li>
+                    <li data-value="Andha Yug">Andha Yug (Rs. 1200)</li>
+                    <li data-value="Court Martial">Court Martial (Rs. 1000)</li>
+                </ul>
+            </div>
+            <input type="hidden" id="eventName">
+        </div>
+
+        <textarea id="message" placeholder="Special Requests (Optional)" rows="4"></textarea>
+        <button onclick="bookTicket()">Book Ticket</button>
+
+        <div class="message-success" id="successMessage">Your Ticket Has Been Booked Successfully!</div>
+        <div class="message-error" id="errorMessage">Please fill in all the required fields.</div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>TheatreShow.com</h4>
+                    <p style="color: #aaa;">Celebrating the art of performance across languages and cultures.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shows.html">Shows</a></li>
+                        <li><a href="auditoriums.html">Auditoriums</a></li>
+                        <li><a href="feedback.html">Feedback</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Our Mission</h4>
+                    <p style="color:#aaa;">
+                        Bringing live theatre experiences to audiences worldwide through innovation and passion.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="text-center" style="border-top: 1px solid #222; padding-top: 20px; color: #555; font-size: 0.8rem;">
+            &copy; 2026 TheatreShow.com. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        const eventPrices = {
+            "Motherhood": 1500,
+            "Parda": 0,
+            "Ahmed Jahanzaib Concert": 1500,
+            "Chinese New Year": 0,
+            "Andha Yug": 1200,
+            "Court Martial": 1000
+        };
+
+        const showTimings = {
+            "Awami Theatre Festival": "8:00 PM - 10:00 PM",
+            "The Mother": "8:00 PM - 10:00 PM",
+            "Jashan-e-Rekhta": "11:00 AM - 10:00 PM",
+            "Macbeth": "4:00 PM - 6:00 PM, 9:30 PM - 11:30 PM",
+            "Romeo & Juliet": "7:30 PM - 9:30 PM",
+            "Shadowlands": "7:30 PM - 9:55 PM",
+            "Saanp Seedhi": "7:30 PM - 9:35 PM",
+            "Ek Mulaqat": "7:30 PM - 9:00 PM",
+            "Park": "7:30 PM - 9:00 PM"
+        };
+
+        const showSeatPrices = { "1": 1000, "2": 800 };
+
+        // Custom Select Function
+        function setupCustomSelect(customId, hiddenInputId, callback) {
+            const container = document.getElementById(customId);
+            const selected = container.querySelector(".selected");
+            const options = container.querySelectorAll("li");
+            const hiddenInput = document.getElementById(hiddenInputId);
+
+            selected.addEventListener("click", () => {
+                container.querySelector(".options").style.display =
+                    container.querySelector(".options").style.display === "block" ? "none" : "block";
+            });
+
+            options.forEach(option => {
+                option.addEventListener("click", () => {
+                    selected.textContent = option.textContent;
+                    hiddenInput.value = option.dataset.value;
+                    container.querySelector(".options").style.display = "none";
+                    if (callback) callback(option.dataset.value);
+                });
+            });
+
+            document.addEventListener("click", e => {
+                if (!container.contains(e.target)) {
+                    container.querySelector(".options").style.display = "none";
+                }
+            });
+        }
+
+        // Setup all selects
+        setupCustomSelect("ticketTypeSelect", "ticketType", (value) => {
+            document.getElementById("showSection").style.display = value === "show" ? "block" : "none";
+            document.getElementById("eventSection").style.display = value === "event" ? "block" : "none";
+        });
+
+        setupCustomSelect("showSelect", "theater", (value) => {
+            document.getElementById("showTimeDisplay").textContent = "Show Time: " + showTimings[value];
+        });
+
+        setupCustomSelect("seatsSelect", "seats");
+
+        setupCustomSelect("eventSelect", "eventName");
+
+        function showError() {
+            document.getElementById("errorMessage").style.display = "block";
+            document.getElementById("successMessage").style.display = "none";
+        }
+
+        function resetForm() {
+            document.getElementById("name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("message").value = "";
+
+            document.getElementById("ticketType").value = "";
+            document.getElementById("theater").value = "";
+            document.getElementById("seats").value = "";
+            document.getElementById("eventName").value = "";
+
+            document.querySelectorAll(".custom-select .selected").forEach(sel => sel.textContent = sel === document.querySelector("#ticketTypeSelect .selected") ? "Select Ticket Type" :
+                sel === document.querySelector("#showSelect .selected") ? "Select Show" :
+                    sel === document.querySelector("#seatsSelect .selected") ? "Select Seats" :
+                        "Select Event");
+
+            document.getElementById("showSection").style.display = "none";
+            document.getElementById("eventSection").style.display = "none";
+            document.getElementById("showTimeDisplay").textContent = "";
+        }
+
+        function bookTicket() {
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let ticketType = document.getElementById("ticketType").value;
+            let message = document.getElementById("message").value;
+
+            // Name validation (no numbers)
+            if (/\d/.test(name)) {
+                showAlert();
+                return;
+            }
+
+
+            function showAlert() {
+                alertBox.classList.add("show");
+                setTimeout(() => {
+                    alertBox.classList.remove("show");
+                }, 2500);
+            }
+
+            if (!name || !email || !ticketType) { showError(); return; }
+
+            let summary = "";
+            let totalPrice = 0;
+
+            if (ticketType === "show") {
+                const show = document.getElementById("theater").value;
+                const seatCategory = document.getElementById("seats").value;
+
+                if (!show || !seatCategory) { showError(); return; }
+
+                totalPrice = showSeatPrices[seatCategory];
+                const seatText = seatCategory === "1" ? "1-5 Rows" : "6-10 Rows";
+
+                summary = `Show: ${show}\nTime: ${showTimings[show]}\nSeat Category: ${seatText}\nPrice: Rs ${totalPrice}`;
+            }
+
+            if (ticketType === "event") {
+                const eventName = document.getElementById("eventName").value;
+                if (!eventName) { showError(); return; }
+
+                totalPrice = eventPrices[eventName];
+                summary = `Event: ${eventName}\nPrice: ${totalPrice === 0 ? "FREE" : "Rs " + totalPrice}`;
+            }
+
+            alert("Booking Confirmed!\n" + summary + "\nMessage: " + message);
+            resetForm();
+            document.getElementById("successMessage").style.display = "block";
+            document.getElementById("errorMessage").style.display = "none";
+        }
+    </script>
+</body>
+
+</html>

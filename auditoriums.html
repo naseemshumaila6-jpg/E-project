@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TheatreShow.com | The Stage Awaits</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+  <link rel="icon" href="images/gold-theater-mask.png">
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    background: linear-gradient(to top, maroon, black);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 1rem;
+  }
+
+  /* =========================================
+           3. HEADER & NAVIGATION
+           ========================================= */
+  header {
+    background-color: #222;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    z-index: 1000;
+  }
+
+  /* logo section */
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo img {
+    width: 50px;
+    height: 50px;
+    margin-right: 5px;
+  }
+
+  .logo h2 {
+    margin: 0;
+    line-height: 1;
+    font-size: 30px;
+    color: goldenrod;
+  }
+
+  .navbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+  }
+
+  .nav-item a {
+    text-decoration: none;
+    color: #e6d28a;
+    transition: 0.3s;
+    position: relative;
+    left: 30px;
+  }
+
+  .nav-item a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0;
+    height: 2px;
+    background: goldenrod;
+    transition: width 0.3s ease;
+  }
+
+  .nav-item a:hover::after {
+    width: 100%;
+  }
+
+  /* Hover glow */
+  .nav-links a:hover {
+    color: whitesmoke;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+  }
+
+  .nav-item {
+    font-size: 0.95rem;
+    font-weight: 400;
+    cursor: pointer;
+    color: #ccc;
+  }
+
+  #menu-toggle {
+    display: none;
+  }
+
+  .menu-icon {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+  }
+
+  .menu-icon span {
+    width: 25px;
+    height: 3px;
+    background: goldenrod;
+    margin: 4px 0;
+    transition: 0.3s;
+  }
+
+  /* Utility classes */
+  .section-title {
+    font-size: 2.6rem;
+    color: gold;
+    text-align: center;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    font-size: xx-large;
+
+    /* Gold glow effect */
+    text-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.8),
+      0 0 20px rgba(212, 175, 55, 0.7),
+      0 0 40px rgba(212, 175, 55, 0.4);
+  }
+
+  .section-subtitle {
+    font-size: 1.1rem;
+    color: #ffffff;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  }
+  section.text-center {
+  margin-top: 100px;
+}
+
+  /* Magazine Grid Layout */
+  .container-fluid.px-5 {
+    padding-left: 20px;
+    padding-right: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .shows-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+  }
+
+  /* Utility Classes */
+  .page-section {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
+  .section-padding {
+    padding: 80px 0;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .text-white {
+    color: #fff;
+  }
+
+  .text-gold {
+    color: gold;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+  }
+
+  .btn-primary {
+    background-color: red;
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background-color: gold;
+    color: black;
+    transform: translateY(-3px);
+  }
+
+  .btn-outline {
+    border: 2px solid gold;
+    color: gold;
+    background: transparent;
+  }
+
+  .btn-outline:hover {
+    background: gold;
+    color: black;
+  }
+
+  /* Magazine Card */
+  .show-card {
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .show-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    border: 1px solid gold;
+  }
+
+  .show-img {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+  }
+
+  .show-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .show-card:hover .show-img img {
+    transform: scale(1.05);
+  }
+
+  .show-info h4 {
+    color: gold;
+  }
+
+  .show-info {
+    padding: 25px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .show-info p {
+    color: #ccc;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    flex-grow: 1;
+  }
+
+  .show-card .btn {
+    margin-top: auto;
+  }
+
+  .show-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+    color: #eee;
+  }
+
+  .show-meta span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .show-meta .icon {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+  }
+
+  /* MODAL CONTENT */
+  .modal-content {
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    border: 2px solid goldenrod;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+    color: #eee;
+  }
+
+  .modal-header {
+    background: linear-gradient(90deg, #500000, #300000);
+    border-bottom: 2px solid gold;
+    color: gold;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .modal-title {
+    font-weight: 700;
+    font-size: 1.5rem;
+  }
+
+  .modal-body {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #ccc;
+    padding: 20px 25px;
+  }
+
+  .modal-footer {
+    border-top: 2px solid gold;
+    background-color: #111;
+  }
+
+  .modal-footer .btn {
+    background-color: goldenrod;
+    color: black;
+    border-radius: 25px;
+    padding: 8px 20px;
+    font-weight: 600;
+    transition: 0.3s;
+  }
+
+  .modal-footer .btn:hover {
+    background-color: red;
+    color: #fff;
+    transform: translateY(-2px);
+  }
+  .modal.fade .modal-dialog {
+    transform: translateY(-50px);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+  }
+
+  .modal.fade.show .modal-dialog {
+    transform: translateY(0);
+  }
+  .map-containerr {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  .map-containerr iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  /* Footer */
+  footer {
+    background: #222;
+    padding: 50px 0 20px;
+    border-top: 1px solid #333;
+    margin-top: auto;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+
+  .footer-col h4 {
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-size: larger;
+  }
+
+  .footer-col p {
+    color: #eee;
+    line-height: 1.5;
+    font-size: 0.9rem;
+  }
+
+  /* Quick links list */
+  .footer-col ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-col ul li a {
+    margin-bottom: 10px;
+    color: #aaa;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .footer-col ul li a:hover {
+    color: goldenrod;
+  }
+  .text-center {
+    text-align: center;
+    font-size: 1rem;
+    color: #555;
+    padding-top: 20px;
+    margin-top: 20px;
+  }
+
+  @media (max-width: 900px) {
+    .menu-icon {
+      display: flex;
+      z-index: 1001;
+    }
+
+    /* Navbar container for toggle menu */
+    .navbar {
+      position: fixed;
+      top: 70px;
+      right: 0;
+      width: 75%;
+      max-width: 360px;
+      height: calc(100vh - 70px);
+      background: #222;
+      box-shadow: -4px 0 10px rgba(0, 0, 0, 0.6);
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      padding: 20px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    }
+
+    /* Nav links vertical layout */
+    .nav-links {
+      flex-direction: column;
+      width: 100%;
+      display: flex;
+      gap: 20px;
+      padding-top: 20px;
+    }
+
+    /* Bigger links for touch */
+    .nav-item a {
+      font-size: 1.2rem;
+      padding: 10px 0;
+      width: 100%;
+    }
+    #menu-toggle:checked~.navbar {
+      transform: translateX(0);
+    }
+    header {
+      padding: 10px 20px;
+    }
+    .modal-dialog {
+      max-width: 90%;
+      margin: 1.75rem auto;
+    }
+    .map-containerr iframe {
+      height: 300px;
+    }
+    .shows-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+      section.text-center {
+    margin-top: 160px;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    line-height: 1.3; 
+  }
+  .section-subtitle {
+    font-size: 1rem;
+    padding: 0 15px;
+  }
+  }
+</style>
+
+<body>
+  <!-- Navigation Bar -->
+  <header>
+    <div class="logo">
+      <img src="images/gold-theater-mask.png" alt="logo">
+      <h2><strong>TheatreShow</strong></h2>
+    </div>
+    <input type="checkbox" id="menu-toggle">
+
+    <label for="menu-toggle" class="menu-icon">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+<nav class="navbar">
+      <ul class="nav-links" id="nav-links">
+        <li class="nav-item"><a href="index.html" >Home</a></li>
+        <li class="nav-item"><a href="shows.html" >Shows</a></li>
+        <li class="nav-item"><a href="auditoriums.html" >Auditoriums</a></li>
+        <li class="nav-item"><a href="events.html" >Events</a></li>
+        <li class="nav-item"><a href="artists.html" >Artists</a></li>
+        <li class="nav-item"><a href="awards.html" >Awards</a></li>
+        <li class="nav-item"><a href="reviews.html" >Reviews</a></li>
+        <li class="nav-item"><a href="magazines.html" >Magazines</a></li>
+        <li class="nav-item"><a href="feedback.html" >Feedback</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+  <!-- AUDITORIUM SECTION -->
+  <section class="text-center">
+    <div class="auditorium">
+      <h1 class="section-title reveal mt-4">The Stage Awaits</h1>
+      <p class="section-subtitle reveal">
+        "Experience the thrill of live theatre in auditoriums that echo with history, artistry, and unforgettable
+        performances. Every corner tells a story, every seat sparks wonder."
+      </p>
+    </div>
+  </section>
+
+  <section id="magazines" class="page-section">
+    <div class="section-padding" style="padding-top: 0;">
+      <div class="container-fluid px-5">
+
+        <div class="shows-grid">
+          <!-- Card 1: Early Years -->
+          <article class="show-card">
+            <div class="show-img">
+              <img src="images/napa.auditrium.jpg" alt="Napa" loading="lazy">
+            </div>
+            <div class="show-info">
+              <h4>Zia Mohyeddin Theatre, NAPA</h4>
+              <div class="show-meta">
+                <span><img src="images/logo-people.png" alt="Capacity" class="icon">Capacity: 200</span>
+                <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon">Zia Mohyeddin Theatre,
+                  NAPA (Hindu Gymkhana), M R Kiyani Road, Karachi, Pakistan, 74400</span>
+              </div>
+              <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#ziaAudi"> Details</button>
+            </div>
+          </article>
+
+          <!-- Card 2: Resistance Theatre -->
+          <article class="show-card">
+            <div class="show-img">
+              <img src="images/al-hamra.jpg" alt="Al-Hamra" loading="lazy">
+            </div>
+            <div class="show-info">
+              <h4>Alhamra Arts Council (Lahore Arts Council)</h4>
+              <div class="show-meta">
+                <span><img src="images/logo-people.png" alt="Capacity" class="icon">Capacity: 7000-8000</span>
+                <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon">68 Shahrah-e-Quaid-e-Azam,
+                  Commercial Area Garhi Shahu, Lahore, 54000</span>
+              </div>
+              <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#alhamraaudi"> Details</button>
+            </div>
+          </article>
+
+          <!-- Card 3: Modern Revival -->
+          <article class="show-card">
+            <div class="show-img">
+              <img src="images/ac-auditorium.jpg" alt="Modern Stage" loading="lazy">
+            </div>
+            <div class="show-info">
+              <h4>AC Auditorium</h4>
+              <div class="show-meta">
+                <span><img src="images/logo-people.png" alt="Age limit" class="icon">Capacity: 200-500</span>
+                <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon">M.R Kyani Rd, Saddar Saddar
+                  Town، Karachi, 74400, Pakistan, Karachi</span>
+              </div>
+              <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#auditorium"> Details</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <!-- Modal -->
+  <div class="modal fade" id="ziaAudi" tabindex="-1" aria-hidden="true">
+
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Zia Mohyeddin Theatre, NAPA</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="map-containerr">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3620.348211978076!2d67.02158779999999!3d24.8519541!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33f7e236f4707%3A0xc9594c8e0c7907b1!2zWmlhIE11aHllZGRpbiBUaGVhdGVy25Qg2LbbjNin2KEg2YXYrduMINin2YTYr9uM2YYg2KravtuM2bnYsQ!5e0!3m2!1sen!2s!4v1769463269527!5m2!1sen!2s"
+              width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="alhamraaudi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Alhamra Arts Council (Lahore Arts Council)</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="map-containerr">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3399.7583798066416!2d74.32910199999999!3d31.558244999999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391904b47ea0f73d%3A0x59baa4e1f542274!2sAlhamra%20Art%20Center!5e0!3m2!1sen!2s!4v1769464706363!5m2!1sen!2s"
+              width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="auditorium" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">AC Auditorium</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="map-containerr">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3620.312777430658!2d67.01762507529641!3d24.853164845549617!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33e0b7a5f23af%3A0xa81ba3b0971e9f7a!2sAC%20AUDITORIUM%201%20(Arts%20Council&#39s%20Theater%20Hall%2C%20)!5e0!3m2!1sen!2s!4v1768917297577!5m2!1sen!2s"
+              width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>TheatreShow.com</h4>
+          <p style="color: #aaa;">Celebrating the art of performance across languages and cultures.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shows.html">Shows</a></li>
+            <li><a href="auditoriums.html">Auditoriums</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Our Mission</h4>
+          <p style="color:#aaa;">
+            Bringing live theatre experiences to audiences worldwide through innovation and passion.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="text-center" style="border-top: 1px solid #222; padding-top: 20px; color: #555; font-size: 0.8rem;">
+      &copy; 2026 TheatreShow.com. All Rights Reserved.
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

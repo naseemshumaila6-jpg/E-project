@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TheatreShow.com | The Stage Awaits</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+  <link rel="icon" href="images/gold-theater-mask.png">
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    background: linear-gradient(to top, maroon, black);
+    padding-top: 30px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 1rem;
+  }
+
+  /* =========================================
+           3. HEADER & NAVIGATION
+           ========================================= */
+  header {
+    background-color: #222;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    z-index: 1000;
+  }
+
+  /* logo section */
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo img {
+    width: 50px;
+    height: 50px;
+    margin-right: 5px;
+  }
+
+  .logo h2 {
+    margin: 0;
+    line-height: 1;
+    font-size: 30px;
+    color: goldenrod;
+  }
+
+  .navbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+  }
+
+  .nav-item a {
+    text-decoration: none;
+    color: #e6d28a;
+    transition: 0.3s;
+    position: relative;
+    left: 30px;
+  }
+
+  .nav-item a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0;
+    height: 2px;
+    background: goldenrod;
+    transition: width 0.3s ease;
+  }
+
+  .nav-item a:hover::after {
+    width: 100%;
+  }
+
+  /* Hover glow */
+  .nav-links a:hover {
+    color: whitesmoke;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+  }
+
+  .nav-item {
+    font-size: 0.95rem;
+    font-weight: 400;
+    cursor: pointer;
+    color: #ccc;
+  }
+
+  #menu-toggle {
+    display: none;
+  }
+
+  .menu-icon {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+  }
+
+  .menu-icon span {
+    width: 25px;
+    height: 3px;
+    background: goldenrod;
+    margin: 4px 0;
+    transition: 0.3s;
+  }
+
+  /* Utility classes */
+  .section-title {
+    font-size: 2.6rem;
+    color: gold;
+    text-align: center;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+    font-size: xx-large;
+
+    /* Gold glow effect */
+    text-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.8),
+      0 0 20px rgba(212, 175, 55, 0.7),
+      0 0 40px rgba(212, 175, 55, 0.4);
+  }
+
+  .section-subtitle {
+    font-size: 1.1rem;
+    color: #ffffff;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+    line-height: 1.6;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .section-padding {
+    padding: 80px 0;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .text-white {
+    color: #fff;
+  }
+
+  .text-gold {
+    color: goldenrod
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+  }
+
+  .btn-primary {
+    background-color: red;
+  }
+
+  .btn-primary a {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background-color: goldenrod;
+    color: black;
+    transform: translateY(-3px);
+  }
+
+  .btn-outline {
+    border: 2px solid goldenrod;
+    color: goldenrod;
+    background: transparent;
+  }
+
+  .btn-outline:hover {
+    background: goldenrod;
+    color: black;
+  }
+
+  /* --- SHOWS SECTION (Filterable) --- */
+  .filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+  }
+
+  .filter-btn {
+    padding: 10px 22px;
+    border: 1px solid goldenrod;
+    background: transparent;
+    color: goldenrod;
+    cursor: pointer;
+    border-radius: 999px;
+    transition: 0.3s;
+  }
+
+  .filter-btn.active,
+  .filter-btn:hover {
+    background: goldenrod;
+    color: black;
+  }
+  .shows-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 300px));
+    gap: 30px;
+    justify-content: center;
+  }
+
+  .show-card {
+    background: #1e1e1e;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 9px 10px 25px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s;
+    animation: fadeUp 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-width: 300px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .show-card:hover {
+    transform: translateY(-10px);
+  }
+
+  .show-img {
+    height: 220px;
+    overflow: hidden;
+  }
+
+  .show-img img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: 0.3s;
+  }
+
+  .show-card:hover .show-img img {
+    transform: scale(1.1);
+  }
+
+  .show-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  .show-info .btn {
+    margin-top: auto;
+  }
+
+  .show-info h3,
+  .show-title {
+    color: gold;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
+
+  .show-tag {
+    font-size: 0.8rem;
+    background: red;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    display: inline-block;
+  }
+
+  .show-info,
+  .show-description {
+    color: #fff;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+  }
+
+  .show-info .show-tag {
+    font-size: 0.8rem;
+    background: red;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .show-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+    color: #eee;
+  }
+
+  .show-meta span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .show-meta .icon {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+  }
+
+  /* Get Updated Button */
+  .btn-update {
+    border: 2px solid goldenrod;
+    color: goldenrod;
+    background: transparent;
+    padding: 12px 30px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-update:hover {
+    background: goldenrod;
+    color: black;
+    transform: translateY(-3px);
+    text-shadow: 0 0 5px black;
+  }
+
+  /* Modal Custom Theme */
+  .modal-content {
+    background: #222;
+    border-radius: 15px;
+    border: 1px solid goldenrod;
+    color: #fff;
+  }
+
+  .modal-header,
+  .modal-footer {
+    border-bottom: 1px solid goldenrod;
+    border-top: 1px solid goldenrod;
+  }
+
+  .modal-title {
+    color: goldenrod;
+  }
+
+  .modal-body p {
+    color: #ccc;
+  }
+
+  .modal-body .btn {
+    background: red;
+    color: #fff;
+    border-radius: 25px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .modal-body .btn:hover {
+    background: goldenrod;
+    color: black;
+    transform: translateY(-2px);
+    text-shadow: 0 0 5px black;
+  }
+
+  .modal-footer .btn-secondary {
+    background: transparent;
+    color: goldenrod;
+    border: 2px solid goldenrod;
+  }
+
+  .modal-footer .btn-secondary:hover {
+    background: goldenrod;
+    color: black;
+  }
+
+  /* Footer */
+  footer {
+    background: #222;
+    padding: 50px 0 20px;
+    border-top: 1px solid #333;
+    margin-top: auto;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+
+  .footer-col h4 {
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-size: larger;
+  }
+
+  .footer-col p {
+    color: #eee;
+    line-height: 1.5;
+    font-size: 0.9rem;
+  }
+  .footer-col ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-col ul li a {
+    margin-bottom: 10px;
+    color: #aaa;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .footer-col ul li a:hover {
+    color: goldenrod;
+  }
+  .text-center {
+    text-align: center;
+    font-size: 1rem;
+    color: #555;
+    padding-top: 20px;
+    margin-top: 20px;
+  }
+
+  @media (max-width: 900px) {
+    .menu-icon {
+      display: flex;
+      position: relative;
+      z-index: 2000;
+    }
+
+    /* Navbar container for toggle menu */
+    .navbar {
+      position: fixed;
+      top: 70px;
+      right: 0;
+      width: 75%;
+      max-width: 360px;
+      height: calc(100vh - 70px);
+      background: #222;
+      box-shadow: -4px 0 10px rgba(0, 0, 0, 0.6);
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      padding: 20px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    }
+    .nav-links {
+      flex-direction: column;
+      width: 100%;
+      display: flex;
+      gap: 20px;
+      padding-top: 20px;
+    }
+    .nav-item a {
+      font-size: 1.2rem;
+      padding: 10px 0;
+      width: 100%;
+    }
+    #menu-toggle:checked~.navbar {
+      transform: translateX(0);
+    }
+    header {
+      padding: 10px 20px;
+    }
+
+    .section-title {
+      font-size: 2.4rem;
+      letter-spacing: 0.8px;
+    }
+
+    .shows-grid {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      justify-content: center;
+    }
+
+    .show-card {
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .show-img {
+      height: 200px;
+    }
+
+    .show-info h3 {
+      font-size: 1.15rem;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    .filter-buttons {
+      padding: 0 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .filter-btn {
+      padding: 8px 18px;
+      font-size: 0.9rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+  }
+</style>
+
+<body>
+  <!-- Navigation Bar -->
+  <header>
+    <div class="logo">
+      <img src="images/gold-theater-mask.png" alt="logo">
+      <h2><strong>TheatreShow</strong></h2>
+    </div>
+    <input type="checkbox" id="menu-toggle">
+
+    <label for="menu-toggle" class="menu-icon">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+    <nav class="navbar">
+      <ul class="nav-links" id="nav-links">
+        <li class="nav-item"><a href="index.html" >Home</a></li>
+        <li class="nav-item"><a href="shows.html" >Shows</a></li>
+        <li class="nav-item"><a href="auditoriums.html" >Auditoriums</a></li>
+        <li class="nav-item"><a href="events.html" >Events</a></li>
+        <li class="nav-item"><a href="artists.html" >Artists</a></li>
+        <li class="nav-item"><a href="awards.html" >Awards</a></li>
+        <li class="nav-item"><a href="reviews.html" >Reviews</a></li>
+        <li class="nav-item"><a href="magazines.html" >Magazines</a></li>
+        <li class="nav-item"><a href="feedback.html" >Feedback</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- 2. SHOWS SECTION (Filterable) -->
+  <section id="shows" class="page-section">
+    <div class="section-padding">
+      <div class="container">
+        <h2 class="section-title reveal mt-4">Theatre Shows</h2>
+        <p class="section-subtitle reveal">
+          Explore mesmerizing performances across languages and genres — from classic plays to modern masterpieces,
+          every show promises a journey of emotion, drama, and magic on stage.
+        </p>
+        <div class="filter-buttons reveal">
+          <button class="filter-btn active">All</button>
+          <button class="filter-btn">Urdu</button>
+          <button class="filter-btn">Hindi</button>
+          <button class="filter-btn">English</button>
+        </div>
+        <div class="shows-grid" id="shows-grid">
+          <!-- Show Card 1 -->
+          <div class="show-card" data-language="Urdu">
+            <div class="show-img">
+              <img src="images/images.jpg" alt="Awami Theatre Festival poster" loading="lazy">
+            </div>
+            <div class="show-info">
+              <h3>Awami Theatre Festival</h3>
+              <p class="show-tag">Urdu</p>
+              <p>Annual multi-play theatre festival.</p>
+              <div class="show-meta">
+                <span><img src="images/gold-calendar-icon-3d.png" alt="calendar" class="icon"> Jan 22 - Feb 15,
+                  2026</span>
+                <span><img src="images/loo.time.png" alt="time" class="icon">8:00pm</span>
+                <span><img src="images/logo-people.png" alt="Age limit" class="icon">All</span>
+                <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon">Arts Council of Pakistan
+                  (Auditorium 2), Karachi</span>
+              </div>
+              <a href="booktickets.html" class="btn btn-primary w-100">Book Ticket</a>
+            </div>
+          </div>
+
+          <!-- Show Card 2 -->
+          <div class="show-card" data-language="Urdu">
+            <div class="show-img">
+              <img src="images/the-mother-images.jpg" alt="The Mother" loading="lazy">
+            </div>
+            <div class="show-info">
+              <h3>The Mother</h3>
+              <p class="show-tag">Urdu</p>
+              <p>A psychological Drama.</p>
+              <div class="show-meta">
+                <span><img src="images/gold-calendar-icon-3d.png" alt="calendar" class="icon"> Jan 9 - 18,
+                  2026</span>
+                <span><img src="images/loo.time.png" alt="time" class="icon">2 hrs (8:00pm)</span>
+                <span><img src="images/logo-people.png" alt="Age limit" class="icon">13yrs<sup>+</sup></span>
+                <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon">Zia Mohyeddin Theatre,
+                  (NAPA), Karachi</span>
+              </div>
+              <a href="booktickets.html" class="btn btn-primary w-100">Book Ticket</a>
+            </div>
+          </div>
+
+          <!-- Show Card 3-->
+          <div class="show-card" data-language="Urdu">
+            <div class="show-img">
+              <img src="images/jashan-e-rekhta-image.jpg" alt="Jashan-e-Rekhta" loading="lazy">
+            </div>
+            <div class="show-info">
+              <h3>Jashan-e-Rekhta</h3>
+              <p class="show-tag">Urdu</p>
+              <p>A beautiful performance showcasing Urdu poetry and drama.</p>
+              <div class="show-meta">
+                <span><img src="images/gold-calendar-icon-3d.png" alt="calendar" class="icon"> Feb 14 - 15,
+                  2026</span>
+                <span><img src="images/loo.time.png" alt="time" class="icon">11 hrs (11:00am - 10:00pm)</span>
+                <span><img src="images/logo-people.png" alt="Age limit" class="icon">8yrs<sup>+</sup></span>
+                <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon">Zabeel Park, Dubai</span>
+              </div>
+              <a href="booktickets.html" class="btn btn-primary w-100">Book Ticket</a>
+            </div>
+          </div>
+
+          <!-- Show Card 4-->
+          <div class="show-card" data-language="English">
+            <div class="show-img">
+              <img src="images/macbeth.jpg" alt="Macbeth" loading="lazy">
+            </div>
+            <div class="show-info">
+              <h3>Macbeth</h3>
+              <p class="show-tag">English</p>
+              <p>A thrilling Shakespearean drama performed live on stage, shows greed, ambition and guilt.</p>
+              <div class="show-meta">
+                <span><img src="images/gold-calendar-icon-3d.png" alt="calendar" class="icon"> Jan 31, 2026</span>
+                <span><img src="images/loo.time.png" alt="time" class="icon"> 2 hr (4:00pm and 9:30pm)</span>
+                <span><img src="images/logo-people.png" alt="Age limit" class="icon">14yrs<sup>+</sup></span>
+                <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon"> Kamani Auditorium, New
+                  Delhi India</span>
+              </div>
+              <a href="booktickets.html" class="btn btn-primary w-100">Book Ticket</a>
+            </div>
+          </div>
+
+          <!-- Show Card 5-->
+          <div class="show-card" data-language="English">
+            <div class="show-img">
+              <img src="images/romeo & juliet.jpg" alt="Romeo & Juliet" loading="lazy">
+            </div>
+            <div class="show-info">
+              <h3>Romeo & Juliet</h3>
+              <p class="show-tag">English</p>
+              <p>A digital clock counts down the minutes, heightening the sense of doomed fate.</p>
+              <div class="show-meta">
+                <span><img src="images/gold-calendar-icon-3d.png" alt="calendar" class="icon"> March 16 - June 6,
+                  2026</span>
+                <span><img src="images/loo.time.png" alt="time" class="icon"> TBC (7:30pm)</span>
+                <span><img src="images/logo-people.png" alt="Age limit" class="icon">10yrs<sup>+</sup></span>
+                <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon">Harold Pinter Theatre,
+                  London</span>
+              </div>
+              <a href="booktickets.html" class="btn btn-primary w-100">Book Ticket</a>
+            </div>
+          </div>
+
+          <!-- Show Card 6-->
+          <div class="show-card" data-language="English">
+            <div class="show-img">
+              <img src="images/shadowlands.jpg" alt="ShadowLands" loading="lazy">
+            </div>
+            <div class="show-info">
+              <h3>SHADOWLANDS</h3>
+              <p class="show-tag">English</p>
+              <p>A deeply moving, true love story that explores the life of C.S.Lewis- Author of The Chronicles of
+                Narnia.</p>
+              <div class="show-meta">
+                <span><img src="images/gold-calendar-icon-3d.png" alt="calendar" class="icon"> Feb 5 - May 9,
+                  2026</span>
+                <span><img src="images/loo.time.png" alt="time" class="icon"> 2 hr 20 mins (7:30pm)</span>
+                <span><img src="images/logo-people.png" alt="Age limit" class="icon">12yrs<sup>+</sup></span>
+                <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon">Aldwych Theatre,
+                  London</span>
+              </div>
+              <a href="booktickets.html" class="btn btn-primary w-100">Book Ticket</a>
+            </div>
+          </div>
+
+          <!-- Show Card 7 -->
+          <div class="show-card" data-language="Hindi">
+            <div class="show-img">
+              <img src="images/sanp-seedhi.jpg" alt="Saanp Seedhi" loading="lazy">
+            </div>
+            <div class="show-info">
+              <h3>Saanp Seedhi</h3>
+              <p class="show-tag">Hindi</p>
+              <p>It is a two-hander play, a intense battle of wits, ego, and deception between a husband and his wife's
+                lover.</p>
+              <div class="show-meta">
+                <span><img src="images/gold-calendar-icon-3d.png" alt="calendar" class="icon"> Feb 28, 2026</span>
+                <span><img src="images/loo.time.png" alt="time" class="icon"> 2 hr 5 mins (7:30pm)</span>
+                <span><img src="images/logo-people.png" alt="Age limit" class="icon">15yrs<sup>+</sup></span>
+                <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon">The Grand Theatre, NMAAC
+                  Mumbai</span>
+              </div>
+              <a href="booktickets.html" class="btn btn-primary w-100">Book Ticket</a>
+            </div>
+          </div>
+
+          <!-- Show Card 8 -->
+          <div class="show-card" data-language="Hindi">
+            <div class="show-img">
+              <img src="images/ek-mulaqaat.jpg" alt="Ek Mulaqaat" loading="lazy">
+            </div>
+            <div class="show-info">
+              <h3>Ek Mulaqaat</h3>
+              <p class="show-tag">Hindi</p>
+              <p>A romantic drama revolving around the unfulfilled love story of legendary poets Sahir Ludhianvi and
+                Amrita Pritam.</p>
+              <div class="show-meta">
+                <span><img src="images/gold-calendar-icon-3d.png" alt="calendar" class="icon"> Feb 1 - Apr 19,
+                  2026</span>
+                <span><img src="images/loo.time.png" alt="time" class="icon"> 1 hr 30 mins (7:30pm)</span>
+                <span><img src="images/logo-people.png" alt="Age limit" class="icon">10yrs<sup>+</sup></span>
+                <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon">St. Andrews Theatre,
+                  Mumbai</span>
+              </div>
+              <a href="booktickets.html" class="btn btn-primary w-100">Book Ticket</a>
+            </div>
+          </div>
+
+          <!-- Show Card 8 -->
+          <div class="show-card" data-language="Hindi">
+            <div class="show-img">
+              <img src="images/park.jpg" alt="Park" loading="lazy">
+            </div>
+            <div class="show-info">
+              <h3>Park</h3>
+              <p class="show-tag">Hindi</p>
+              <p>A comedic play, three men fighting over limited space—specifically three benches in a park.</p>
+              <div class="show-meta">
+                <span><img src="images/gold-calendar-icon-3d.png" alt="calendar" class="icon"> Jan 31, 2026</span>
+                <span><img src="images/loo.time.png" alt="time" class="icon"> 1 hr 30 mins (7:30pm)</span>
+                <span><img src="images/logo-people.png" alt="Age limit" class="icon">10yrs<sup>+</sup></span>
+                <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon">Theatre, Bangaluru</span>
+              </div>
+              <a href="booktickets.html" class="btn btn-primary w-100">Book Ticket</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="text-center" style="margin-top: 20px; margin-bottom: 50px;">
+    <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+      Get Updated - Upcoming Shows
+    </button>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Upcoming Theatre Shows</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <p style="color:#ccc;">Choose your region to explore upcoming and bookable shows</p>
+
+          <a href="https://in.bookmyshow.com" target="_blank" class="btn btn-primary w-100 mb-2">
+            India - BookMyShow
+          </a>
+
+          <a href="https://ticketwala.pk" target="_blank" class="btn btn-primary w-100 mb-2">
+            Pakistan - TicketWala
+          </a>
+
+          <a href="https://www.google.com/aclk?sa=L&pf=1&ai=DChsSEwiez4X5qJeSAxW3bEECHQi_ELcYACICCAEQARoCd3M&co=1&ase=2&gclid=CjwKCAiAybfLBhAjEiwAI0mBBvmFNKqjfbvFS5ElzxOoczh40mX0coOsQiXCBM4SjU1V3yYYeVGm7hoCcfsQAvD_BwE&cid=CAASuwHkaOeSDZPdDU4qSW3hQHvWOtjq5A-ZlLGfU72PCWaTR4n4Kd5G2rBslnS2Pu4q3WNkv2806Ngq2dSePOCjBXx-E5PNN4pDVmLWU2n454V4bIYM-tr8W6sylv7QqKz6iLAyJVzSqCUk1VlPwgfY-SCo21vWdo5L9oPfc4fwNQbuqLP6pGpzbonNNE8DYB8jYulS2jy4fJkbPs2HQOSKBCoeaIJJleJPw97xwJ9gKCSPSsRRXti4QVa52BPz&cce=2&category=acrcp_v1_32&sig=AOD64_1ezU1FqZ6Bmbc-hkC_62CM5YC_Cg&q&nis=4&adurl=https://www.londontheatre.co.uk/whats-on?utm_source%3Dgoogle%26utm_medium%3Dcpc%26utm_campaignid%3D12907178559%26utm_adgroupid%3D150008688948%26utm_adid%3D693204209715%26utm_term%3Dlondon%2520theatre%26utm_matchtype%3Db%26utm_campaign%3DTTG_LT_g_uk_acq_search_generic%26utm_adgroup%3DGeneric_All%26gad_source%3D1%26gad_campaignid%3D12907178559%26gbraid%3D0AAAAADQb_BkTIHAsIqA7lYKbcRWgnIPTn%26gclid%3DCjwKCAiAybfLBhAjEiwAI0mBBvmFNKqjfbvFS5ElzxOoczh40mX0coOsQiXCBM4SjU1V3yYYeVGm7hoCcfsQAvD_BwE&ved=2ahUKEwjxgv_4qJeSAxWiRaQEHekkBqUQ0Qx6BAgOEAE"
+            target="_blank" class="btn btn-primary w-100">
+            London - Official Theatre
+          </a>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>TheatreShow.com</h4>
+          <p style="color: #aaa;">Celebrating the art of performance across languages and cultures.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shows.html">Shows</a></li>
+            <li><a href="auditoriums.html">Auditoriums</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Our Mission</h4>
+          <p style="color:#aaa;">
+            Bringing live theatre experiences to audiences worldwide through innovation and passion.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="text-center" style="border-top: 1px solid #222; padding-top: 20px; color: #555; font-size: 0.8rem;">
+      &copy; 2026 TheatreShow.com. All Rights Reserved.
+    </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    let filterButtons = document.querySelectorAll('.filter-btn');
+    let showCards = document.querySelectorAll('.show-card');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        let filter = btn.textContent.trim();
+        showCards.forEach(card => {
+          if (filter === 'All' || card.dataset.language === filter) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+  </script>
+</body>
+
+</html>

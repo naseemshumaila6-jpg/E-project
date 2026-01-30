@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TheatreShow.com | The Stage Awaits</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+  <link rel="icon" href="images/gold-theater-mask.png">
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    background: linear-gradient(to top, maroon, black);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 1rem;
+  }
+
+  /* Curtain Open Animation on Load */
+  .curtain-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+    pointer-events: none;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .curtain-panel {
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, #500, #300);
+    position: relative;
+    animation: openCurtain 2s ease-in-out forwards;
+    box-shadow: inset 0 0 50px #000;
+  }
+
+  .curtain-panel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: repeating-linear-gradient(90deg, transparent 0, transparent 20px, rgba(0, 0, 0, 0.3) 20px, rgba(0, 0, 0, 0.3) 40px);
+  }
+
+  @keyframes openCurtain {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  .curtain-panel:last-child {
+    animation-name: openCurtainRight;
+  }
+
+  @keyframes openCurtainRight {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  /* =========================================
+           3. HEADER & NAVIGATION
+           ========================================= */
+  header {
+    background-color: #222;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    z-index: 1000;
+  }
+
+  /* logo section */
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo img {
+    width: 50px;
+    height: 50px;
+    margin-right: 5px;
+  }
+
+  .logo h2 {
+    margin: 0;
+    line-height: 1;
+    font-size: 30px;
+    color: goldenrod;
+  }
+
+  .navbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+  }
+
+  .nav-item a {
+    text-decoration: none;
+    color: #e6d28a;
+    transition: 0.3s;
+    position: relative;
+    left: 30px;
+  }
+
+  .nav-item a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0;
+    height: 2px;
+    background: goldenrod;
+    transition: width 0.3s ease;
+  }
+
+  .nav-item a:hover::after {
+    width: 100%;
+  }
+
+  /* Hover glow */
+  .nav-links a:hover {
+    color: whitesmoke;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+  }
+
+  .nav-item {
+    font-size: 0.95rem;
+    font-weight: 400;
+    cursor: pointer;
+    color: #ccc;
+  }
+
+  #menu-toggle {
+    display: none;
+  }
+
+  .menu-icon {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+  }
+
+  .menu-icon span {
+    width: 25px;
+    height: 3px;
+    background: goldenrod;
+    margin: 4px 0;
+    transition: 0.3s;
+  }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    height: 550px;
+    overflow: hidden;
+  }
+
+  .hero-heading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    text-align: center;
+    padding: 30px 40px;
+    max-width: 100%;
+    animation: fadeSlideUp 1.2s ease forwards;
+  }
+
+  .hero-heading h2 {
+    font-size: 3rem;
+    color: gold;
+    margin-top: 10px;
+    text-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.7),
+      0 0 25px rgba(212, 175, 55, 0.5);
+  }
+
+  @keyframes fadeSlideUp {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-para {
+    margin-top: 20px;
+  }
+
+  .hero-tagline {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto 20px;
+    opacity: 0.9;
+    color: #f1f1f1;
+    text-shadow:
+      0 3px 8px rgba(0, 0, 0, 0.9),
+      0 0 20px rgba(0, 0, 0, 0.6);
+    margin-bottom: 0;
+  }
+
+  .slider {
+    height: 550px;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  /* Utility classes */
+  .section-title {
+    font-size: 2.6rem;
+    color: gold;
+    text-align: center;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+    font-size: xx-large;
+
+    /* Gold glow effect */
+    text-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.8),
+      0 0 20px rgba(212, 175, 55, 0.7),
+      0 0 40px rgba(212, 175, 55, 0.4);
+  }
+
+  .section-padding {
+    padding: 80px 0;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .text-white {
+    color: #fff;
+  }
+
+  .text-gold {
+    color: gold;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+
+  /* Primary button */
+  .btn-primary {
+    background-color: red;
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background-color: gold;
+    color: black;
+    transform: translateY(-3px);
+  }
+
+  /* Outline button */
+  .btn-outline {
+    border: 2px solid gold;
+    color: gold;
+    background: transparent;
+  }
+
+  .btn-outline:hover {
+    background: gold;
+    color: black;
+  }
+
+  /* Spotlight effect */
+  .spotlight-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+
+  .spotlight-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.5s, transform 0.5s;
+    pointer-events: none;
+  }
+
+  .spotlight-card:hover::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Carousel */
+  .featured-wrapper {
+    position: relative;
+    overflow: hidden;
+    margin-top: 50px;
+  }
+
+  .featured-track {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.5s ease;
+  }
+
+  .featured-slide {
+    flex: 0 0 calc(100% / 3);
+    padding: 20px;
+  }
+
+  .show-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+    color: #eee;
+  }
+
+  .show-meta span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .show-meta .icon {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+  }
+
+  .show-card {
+    background: #252525;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+  }
+
+
+  .show-card:hover {
+    transform: translateY(-10px);
+  }
+
+  .show-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .show-card h3 {
+    margin: 10px 0 5px 0;
+    color: #fff;
+  }
+
+  .show-card p {
+    margin: 0 0 10px 0;
+    color: #ccc;
+  }
+
+  .show-card button {
+    margin-top: auto;
+    padding: 8px 20px;
+    font-size: 0.8rem;
+  }
+
+  /* Carousel arrows container */
+  .carousel-controls {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  /* Grid for upcoming events */
+  .shows-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 800px;
+    margin: 0 auto;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    justify-content: center;
+  }
+
+  #buton a {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  /* ======= Editorial Section Styling ======= */
+  .editorial-section {
+    background: #111;
+  }
+
+  .editorial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    align-items: start;
+  }
+
+  .editorial-card {
+    padding: 40px 30px;
+    border-left: 3px solid gold;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .editorial-card h3 {
+    color: gold;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+  }
+
+  .editorial-card p {
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .editorial-btn {
+    color: gold;
+    text-decoration: none;
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+    margin-top: auto;
+  }
+
+  .editorial-btn::after {
+    content: "→";
+    margin-left: 8px;
+    transition: margin-left 0.3s ease;
+  }
+
+  .editorial-btn:hover::after {
+    margin-left: 14px;
+  }
+
+  /* ===== Modal Theme Styling ===== */
+  .modal-dialog {
+    margin-top: 8vh;
+  }
+
+  .modal-content {
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    border: 2px solid goldenrod;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+    color: #eee;
+  }
+
+  .modal-header {
+    background: linear-gradient(90deg, #500000, #300000);
+    border-bottom: 2px solid gold;
+    color: gold;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .modal-title {
+    font-weight: 700;
+    font-size: 1.7rem;
+    letter-spacing: 0.6px;
+  }
+
+  .modal-body {
+    font-size: 1.08rem;
+    line-height: 1.75;
+    letter-spacing: 0.3px;
+    color: #ddd;
+    padding: 20px 25px;
+  }
+
+  .modal-footer {
+    border-top: 2px solid gold;
+    background-color: #111;
+  }
+
+  .modal-footer .btn {
+    background-color: goldenrod;
+    color: black;
+    border-radius: 25px;
+    padding: 8px 20px;
+    font-weight: 600;
+    transition: 0.3s;
+  }
+
+  .modal-footer .btn:hover {
+    background-color: red;
+    color: #fff;
+    transform: translateY(-2px);
+  }
+  .modal.fade .modal-dialog {
+    transform: translateY(-50px);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+  }
+
+  .modal.fade.show .modal-dialog {
+    transform: translateY(0);
+  }
+
+  /* Footer */
+  footer {
+    background: #222;
+    padding: 50px 0 20px;
+    border-top: 1px solid #333;
+    margin-top: auto;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+
+  .footer-col h4 {
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-size: larger;
+  }
+
+  .footer-col p {
+    color: #eee;
+    line-height: 1.5;
+    font-size: 0.9rem;
+  }
+
+  /* Quick links list */
+  .footer-col ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-col ul li a {
+    margin-bottom: 10px;
+    color: #aaa;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .footer-col ul li a:hover {
+    color: goldenrod;
+  }
+  .text-center {
+    text-align: center;
+    font-size: 1rem;
+    color: #555;
+    padding-top: 20px;
+    margin-top: 20px;
+  }
+
+  @media (max-width: 900px) {
+    .menu-icon {
+      display: flex;
+      z-index: 1001;
+    }
+
+    /* Navbar container for toggle menu */
+    .navbar {
+      position: fixed;
+      top: 70px;
+      right: 0;
+      width: 75%;
+      max-width: 360px;
+      height: calc(100vh - 70px);
+      background: #222;
+      box-shadow: -4px 0 10px rgba(0, 0, 0, 0.6);
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      padding: 20px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    }
+    .nav-links {
+      flex-direction: column;
+      width: 100%;
+      display: flex;
+      gap: 20px;
+      padding-top: 20px;
+    }
+    .nav-item a {
+      font-size: 1.2rem;
+      padding: 10px 0;
+      width: 100%;
+    }
+    #menu-toggle:checked~.navbar {
+      transform: translateX(0);
+    }
+    header {
+      padding: 10px 20px;
+    }
+
+    .hero-heading {
+      padding: 20px;
+    }
+
+    .hero-heading h2 {
+      font-size: 2.1rem;
+      margin-bottom: 8px;
+    }
+
+    .hero-tagline {
+      font-size: 1.2rem;
+      line-height: 1.75;
+      padding: 0 14px;
+      text-shadow:
+        0 3px 8px rgba(0, 0, 0, 0.85),
+        0 0 20px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Responsive slider handling */
+    .slider {
+      height: 420px;
+      object-fit: cover;
+    }
+
+    .editorial-card {
+      padding: 20px;
+    }
+
+    .editorial-grid {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    .editorial-card h3 {
+      font-size: 1.3rem;
+    }
+
+    .editorial-card p {
+      font-size: 0.95rem;
+    }
+
+    .featured-wrapper {
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+
+    .featured-track {
+      flex-wrap: nowrap;
+      gap: 15px;
+    }
+
+    .featured-slide {
+      flex: 0 0 80%;
+      padding: 10px;
+    }
+
+    .show-card img {
+      height: 180px;
+    }
+
+    .show-card h3 {
+      font-size: 1.1rem;
+    }
+
+    .show-card p {
+      font-size: 0.9rem;
+    }
+
+    .show-card button {
+      padding: 6px 16px;
+      font-size: 0.75rem;
+    }
+
+    .section-title {
+      font-size: 2.4rem;
+      letter-spacing: 0.8px;
+    }
+
+    .modal-body {
+      font-size: 1.12rem;
+      line-height: 1.8;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .hero-tagline {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      padding: 0 10px;
+      text-shadow:
+        0 3px 8px rgba(0, 0, 0, 0.85),
+        0 0 20px rgba(0, 0, 0, 0.6);
+    }
+  }
+</style>
+
+<body>
+  <!-- Curtain Opening Animation -->
+  <div class="curtain-overlay" id="curtain">
+    <div class="curtain-panel"></div>
+    <div class="curtain-panel"></div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header>
+    <div class="logo">
+      <img src="images/gold-theater-mask.png" alt="logo">
+      <h2><strong>TheatreShow</strong></h2>
+    </div>
+    <input type="checkbox" id="menu-toggle">
+
+    <label for="menu-toggle" class="menu-icon">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+<nav class="navbar">
+      <ul class="nav-links" id="nav-links">
+        <li class="nav-item"><a href="index.html" >Home</a></li>
+        <li class="nav-item"><a href="shows.html" >Shows</a></li>
+        <li class="nav-item"><a href="auditoriums.html" >Auditoriums</a></li>
+        <li class="nav-item"><a href="events.html" >Events</a></li>
+        <li class="nav-item"><a href="artists.html" >Artists</a></li>
+        <li class="nav-item"><a href="awards.html" >Awards</a></li>
+        <li class="nav-item"><a href="reviews.html" >Reviews</a></li>
+        <li class="nav-item"><a href="magazines.html" >Magazines</a></li>
+        <li class="nav-item"><a href="feedback.html" >Feedback</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-heading">
+      <h2><strong>Welcome to the World of Drama</strong></h2>
+      <div class="hero-para">
+        <p class="hero-tagline"><strong> Where stories breathe, emotions rise, and every night is
+            unforgettable.</strong>
+        </p>
+      </div>
+    </div>
+
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2500">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="images/acp-concert.jpg" class="d-block w-100 slider img-fluid" alt="Concert" loading="lazy">
+        </div>
+        <div class="carousel-item">
+          <img src="images/pakistan-music-festival-arts-council-karachi.jpg" class="d-block w-100 slider img-fluid"
+            alt="Music Festival" loading="lazy">
+        </div>
+        <div class="carousel-item">
+          <img src="images/01-performance.jpg" class="d-block w-100 slider img-fluid" alt="Performance" loading="lazy">
+        </div>
+        <div class="carousel-item">
+          <img src="images/dance-performance-pays-tribute-to-journalists-martyred-in-palestine-ACP.jpg"
+            class="d-block w-100 slider img-fluid" alt="Tribute Performance" loading="lazy">
+        </div>
+        <div class="carousel-item">
+          <img src="images/mughal-e-azam.jpg" class="d-block w-100 slider img-fluid" alt="Mughal-e-Azam" loading="lazy">
+        </div>
+        <div class="carousel-item">
+          <img src="images/getas_generaline.jpg" class="d-block w-100 slider img-fluid" alt="Getas-Generaline"
+            loading="lazy">
+        </div>
+        <div class="carousel-item">
+          <img src="images/phantom3.jpg" class="d-block w-100 slider img-fluid" alt="Phantom3" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- !-- Featured Carousel -->
+  <div class="section-padding" style="background-color: #222;">
+    <div class="container">
+      <h2 class="section-title reveal">Featured Productions</h2>
+      <div class="featured-wrapper reveal">
+        <div class="featured-track" id="featuredTrack">
+          <div class="featured-slide spotlight-card">
+            <div class="show-card">
+              <img src="images/images.jpg" alt="Awami Theatre Festival poster" loading="lazy">
+              <h3 class="text-white">Awami Theatre Festival</h3>
+              <p class="text-white">Language: Urdu</p>
+              <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#exampleModal">Details</button>
+            </div>
+          </div>
+          <div class="featured-slide spotlight-card">
+            <div class="show-card">
+              <img src="images/jashan-e-rekhta-image.jpg" alt="Jashan-e-Rekhta" loading="lazy">
+              <h3 class="text-white">Jashan-e-Rekhta</h3>
+              <p class="text-white">Language: Urdu</p>
+              <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#rekhtamodal">Details</button>
+            </div>
+          </div>
+          <div class="featured-slide spotlight-card">
+            <div class="show-card">
+              <img src="images/macbeth.jpg " alt="Macbeth" loading="lazy">
+              <h3 class="text-white">Macbeth</h3>
+              <p class="text-white">Language: English</p>
+              <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#macbethmodal">Details</button>
+            </div>
+          </div>
+          <div class="featured-slide spotlight-card">
+            <div class="show-card">
+              <img src="images/park.jpg" alt="Park" loading="lazy">
+              <h3 class="text-white">Park</h3>
+              <p class="text-white">Language: Hindi</p>
+              <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#parkmodal">Details</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center" style="margin-top: 20px;">
+        <button class="btn btn-outline" onclick="moveFeatured(-1)">◀</button>
+        <button class="btn btn-outline" onclick="moveFeatured(1)">▶</button>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <section class="section-padding">
+    <div class="container">
+      <h2 class="section-title reveal">Upcoming Highlights</h2>
+
+      <div class="shows-grid">
+
+        <div class="show-card spotlight-card">
+          <h3>Parda</h3>
+          <div class="show-meta">
+            <span><img src="images/gold-calendar-icon-3d.png" alt="calendar" class="icon"> Feb 10, 2026</span>
+            <span><img src="images/loo.time.png" alt="time" class="icon"> 18:30</span>
+            <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon">Amphitheatre</span>
+          </div>
+          <span class="text-gold">English</span>
+        </div>
+
+        <div class="show-card spotlight-card">
+          <h3>Ahmed Jahanzeb Live</h3>
+          <div class="show-meta">
+            <span><img src="images/gold-calendar-icon-3d.png" alt="calendar" class="icon"> Feb 14, 2026</span>
+            <span><img src="images/loo.time.png" alt="time" class="icon"> 22:00</span>
+            <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon">Auditorium 3</span>
+          </div>
+          <span class="text-gold">Urdu</span>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <a href="events.html" class="btn btn-primary">View All Events</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- The People & The Prestige Section -->
+  <section class="editorial-section section-padding">
+    <div class="container">
+      <h2 class="section-title reveal mb-5">The People & The Prestige</h2>
+      <div class="editorial-grid">
+
+        <!-- Artists Column -->
+        <div class="editorial-card">
+          <h3>Artists</h3>
+          <p>
+            Meet the directors, actors, writers, and designers who bring every story to life on stage.
+          </p>
+          <a href="artists.html" class="editorial-btn">Explore Artists</a>
+        </div>
+
+        <!-- Awards Column -->
+        <div class="editorial-card">
+          <h3>Awards & Recognition</h3>
+          <p>
+            Celebrating excellence through national festivals, juried selections, and standing ovations.
+          </p>
+          <a href="awards.html" class="editorial-btn">View Awards</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Awami Theatre Festival</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Annual multi-play theatre festival featuring ~30 performances in Urdu (and also Punjabi, Sindhi, Saraiki,
+          Balochi, Memon). Includes a special open-air show Dukhtar-e-Kashmir on 6 Feb. Plays include titles like Seedhi
+          Jaleebi, Mirza Ghalib in Karachi, Bohat Ho Gayi Begum, Yeh Kaisa Daur Hai?, Wah Tera Kya Kehna, Mujh Mein Tu
+          Maujood, and more.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="rekhtamodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Jashan-e-Rekhta</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Jashn-e-Rekhta Dubai is a premier Urdu festival celebrating poetry, music, literature, and art, bringing
+          together artists and enthusiasts from around the world to experience the richness of Urdu culture.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="macbethmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Macbeth</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Macbeth is a powerful Indian theatre production of Shakespeare’s classic tragedy, following a brave general’s
+          descent into ambition, murder, guilt, and downfall as he seizes the throne and faces the consequences of his
+          actions.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="parkmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Park</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Park is a Hindi comedy theatre play about three men humorously battling for space and benches in a public
+          park, turning a simple situation into a witty and relatable commentary on territory and everyday life.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>TheatreShow.com</h4>
+          <p style="color: #aaa;">Celebrating the art of performance across languages and cultures.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shows.html">Shows</a></li>
+            <li><a href="auditoriums.html">Auditoriums</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Our Mission</h4>
+          <p style="color:#aaa;">
+            Bringing live theatre experiences to audiences worldwide through innovation and passion.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="text-center" style="border-top: 1px solid #222; padding-top: 20px; color: #555; font-size: 0.8rem;">
+      &copy; 2026 TheatreShow.com. All Rights Reserved.
+    </div>
+  </footer>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      let curtain = document.getElementById('curtain');
+      setTimeout(() => {
+        curtain.classList.add('open');
+      }, 500);
+    })
+
+    function moveFeatured(direction) {
+      let track = document.getElementById("featuredTrack");
+
+      if (direction === 1) {
+        track.appendChild(track.firstElementChild);
+      } else {
+        track.insertBefore(track.lastElementChild, track.firstElementChild);
+      }
+    }
+  </script>
+</body>
+
+</html>

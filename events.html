@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TheatreShow.com | The Stage Awaits</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+  <link rel="icon" href="images/gold-theater-mask.png">
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    background: linear-gradient(to top, maroon, black);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 1rem;
+  }
+
+  /* =========================================
+           3. HEADER & NAVIGATION
+           ========================================= */
+  header {
+    background-color: #222;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    z-index: 1000;
+  }
+
+  /* logo section */
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo img {
+    width: 50px;
+    height: 50px;
+    margin-right: 5px;
+  }
+
+  .logo h2 {
+    margin: 0;
+    line-height: 1;
+    font-size: 30px;
+    color: goldenrod;
+  }
+
+  .navbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+  }
+
+  .nav-item a {
+    text-decoration: none;
+    color: #e6d28a;
+    transition: 0.3s;
+    position: relative;
+    left: 30px;
+  }
+
+  .nav-item a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0;
+    height: 2px;
+    background: goldenrod;
+    transition: width 0.3s ease;
+  }
+
+  .nav-item a:hover::after {
+    width: 100%;
+  }
+
+  /* Hover glow */
+  .nav-links a:hover {
+    color: whitesmoke;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+  }
+
+  .nav-item {
+    font-size: 0.95rem;
+    font-weight: 400;
+    cursor: pointer;
+    color: #ccc;
+  }
+
+  #menu-toggle {
+    display: none;
+  }
+
+  .menu-icon {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+  }
+
+  .menu-icon span {
+    width: 25px;
+    height: 3px;
+    background: goldenrod;
+    margin: 4px 0;
+    transition: 0.3s;
+  }
+
+  /* Utility Classes */
+  .section-title {
+    font-size: 2.6rem;
+    color: gold;
+    text-align: center;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+    font-size: xx-large;
+
+    /* Gold glow effect */
+    text-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.8),
+      0 0 20px rgba(212, 175, 55, 0.7),
+      0 0 40px rgba(212, 175, 55, 0.4);
+  }
+
+  .section-subtitle {
+    font-size: 1.1rem;
+    color: #ffffff;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+    line-height: 1.6;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .section-padding {
+    padding: 80px 0;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .text-white {
+    color: #fff;
+  }
+
+  .text-gold {
+    color: gold;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+  }
+
+  .btn-primary {
+    background-color: #8b0000;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .btn-primary:hover {
+    background-color: gold;
+    color: black;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+  }
+
+  /* =========================================
+           4. RESPONSIVE CARDS & GRIDS
+           ========================================= */
+  .shows-grid,
+  .artists-grid,
+  .mags-grid,
+  .auditorium-grid,
+  #events-full-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+  }
+
+  #events {
+    padding-top: 50px;
+  }
+
+  .card h1,
+  .card h2,
+  .card h3,
+  .card h4,
+  .card h5,
+  .card h6 {
+    color: gold;
+  }
+
+  .card p {
+    color: #fff;
+  }
+
+  .card {
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
+  }
+
+  /* Hover Effect for Cards */
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.15);
+    border-color: gold;
+  }
+
+  .card-img-wrapper {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+  }
+
+  .card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .card:hover .card-img-wrapper img {
+    transform: scale(1.1);
+  }
+
+  .card-body {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    background-color: #1e1e1e;
+  }
+
+  /* Tag styling */
+  .tag {
+    align-self: flex-start;
+    background-color: rgba(212, 175, 55, 0.15);
+    color: gold;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 15px;
+    border: 1px solid gold;
+    letter-spacing: 0.5px;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 5px;
+    line-height: 1.2;
+  }
+
+  .show-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+    color: #eee;
+  }
+
+  .show-meta span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .show-meta .icon {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+  }
+
+  .card-footer {
+    margin-top: auto;
+    border-top: 1px solid #333;
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .price-tag {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: gold;
+    font-weight: 700;
+  }
+
+  /* ================= MODAL ================= */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    backdrop-filter: blur(6px);
+  }
+
+  .modal-overlay.active {
+    display: flex;
+  }
+
+  #modal-title {
+    color: gold;
+  }
+
+  .modal-content {
+    background: #1e1e1e;
+    width: 90%;
+    max-width: 700px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+    animation: scaleIn 0.3s ease;
+  }
+
+  @keyframes scaleIn {
+    from {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .modal-img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+  }
+
+  .modal-body {
+    padding: 30px;
+  }
+
+  .modal-meta,
+  .modal-location {
+    color: #bbb;
+    margin: 10px 0;
+  }
+
+  .modal-price {
+    font-size: 1.5rem;
+    color: gold;
+    font-family: 'Playfair Display', serif;
+    margin-top: 15px;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2rem;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  /* Footer */
+  footer {
+    background: #222;
+    padding: 50px 0 20px;
+    border-top: 1px solid #333;
+    margin-top: auto;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+
+  .footer-col h4 {
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-size: larger;
+  }
+
+  .footer-col p {
+    color: #eee;
+    line-height: 1.5;
+    font-size: 0.9rem;
+  }
+  .footer-col ul {
+    list-style: none;
+    padding: 0;
+  }
+  .footer-col ul li a {
+    margin-bottom: 10px;
+    color: #aaa;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .footer-col ul li a:hover {
+    color: goldenrod;
+  }
+  .text-center {
+    text-align: center;
+    font-size: 1rem;
+    color: #555;
+    padding-top: 20px;
+    margin-top: 20px;
+  }
+
+  /* =========================================
+           5. RESPONSIVE MEDIA QUERIES
+           ========================================= */
+
+  @media (max-width: 900px) {
+    .menu-icon {
+      display: flex;
+      z-index: 1001;
+    }
+
+    /* Navbar container for toggle menu */
+    .navbar {
+      position: fixed;
+      top: 70px;
+      right: 0;
+      width: 75%;
+      max-width: 360px;
+      height: calc(100vh - 70px);
+      background: #222;
+      box-shadow: -4px 0 10px rgba(0, 0, 0, 0.6);
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      padding: 20px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    }
+    .nav-links {
+      flex-direction: column;
+      width: 100%;
+      display: flex;
+      gap: 20px;
+      padding-top: 20px;
+    }
+    .nav-item a {
+      font-size: 1.2rem;
+      padding: 10px 0;
+      width: 100%;
+    }
+    #menu-toggle:checked~.navbar {
+      transform: translateX(0);
+    }
+    header {
+      padding: 10px 20px;
+    }
+
+    #events-full-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+    }
+
+    /* Footer */
+    .footer-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 500px) {
+    #events-full-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .price-tag {
+      font-size: 1.1rem;
+    }
+  }
+</style>
+
+<body>
+  <!-- Navigation Bar -->
+  <header>
+    <div class="logo">
+      <img src="images/gold-theater-mask.png" alt="logo">
+      <h2><strong>TheatreShow</strong></h2>
+    </div>
+    <input type="checkbox" id="menu-toggle">
+
+    <label for="menu-toggle" class="menu-icon">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+<nav class="navbar">
+      <ul class="nav-links" id="nav-links">
+        <li class="nav-item"><a href="index.html" >Home</a></li>
+        <li class="nav-item"><a href="shows.html" >Shows</a></li>
+        <li class="nav-item"><a href="auditoriums.html" >Auditoriums</a></li>
+        <li class="nav-item"><a href="events.html" >Events</a></li>
+        <li class="nav-item"><a href="artists.html" >Artists</a></li>
+        <li class="nav-item"><a href="awards.html" >Awards</a></li>
+        <li class="nav-item"><a href="reviews.html" >Reviews</a></li>
+        <li class="nav-item"><a href="magazines.html" >Magazines</a></li>
+        <li class="nav-item"><a href="feedback.html" >Feedback</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- 7. EVENTS SECTION (STATIC HTML CARDS - NO MODAL) -->
+  <section id="events" class="page-section">
+    <div class="section-padding">
+      <div class="container">
+        <h2 class="section-title reveal">Upcoming Events</h2>
+        <p class="section-subtitle reveal">Experience the magic of live
+          performance.</p>
+
+        <!-- STATIC HTML GRID START -->
+        <div id="events-full-grid">
+
+          <!-- CARD 1: Motherhood -->
+          <div class="card clickable-card" data-title="Motherhood" data-img="id-1.jpg" data-date="Feb 8, 2026"
+            data-time="19:00" data-location="Auditorium 1" data-price="Rs.1500">
+            <div class="card-img-wrapper">
+              <img src="images/id-1.jpg" alt="Motherhood" loading="lazy">
+              <span class="tag"
+                style="position: absolute; top: 15px; right: 15px; z-index: 2; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);">English</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Motherhood</h3>
+              <div class="show-meta">
+                <span><img src="images/gold-calendar-icon-3d.png" alt="calendar" class="icon"> Feb 8, 2026</span>
+                <span><img src="images/loo.time.png" alt="time" class="icon"> 19:00</span>
+                <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon">Auditorium 1</span>
+              </div>
+              <div class="card-footer">
+
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2: Parda -->
+          <div class="card clickable-card" data-title="Parda" data-img="id-2.jpg" data-date="Feb 10, 2026"
+            data-time="18:30" data-location="Amphitheater" data-price="Free Entry">
+            <div class="card-img-wrapper">
+              <img src="images/id-2.jpg" alt="Parda" loading="lazy">
+              <span class="tag"
+                style="position: absolute; top: 15px; right: 15px; z-index: 2; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);">Urdu</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Parda</h3>
+              <div class="show-meta">
+                <span><img src="images/gold-calendar-icon-3d.png" alt="calendar" class="icon"> Feb 10, 2026</span>
+                <span><img src="images/loo.time.png" alt="time" class="icon"> 18:30</span>
+                <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon">Amphitheatre</span>
+              </div>
+              <div class="card-footer">
+
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 3: Ahmed Jahanzaib -->
+          <div class="card clickable-card" data-title="Ahmed Jahanzaib" data-img="id-3.jpg" data-date="Feb 14, 2026"
+            data-time="22:00" data-location="Auditorium 3" data-price="Rs.1500">
+            <div class="card-img-wrapper">
+              <img src="images/id-3.jpg" alt="Concert" loading="lazy">
+              <span class="tag"
+                style="position: absolute; top: 15px; right: 15px; z-index: 2; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);">Urdu</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Ahmed Jahanzaib Live</h3>
+              <div class="show-meta">
+                <span><img src="images/gold-calendar-icon-3d.png" alt="calendar" class="icon"> Feb 14, 2026</span>
+                <span><img src="images/loo.time.png" alt="time" class="icon"> 22:00</span>
+                <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon">Auditorium 3</span>
+              </div>
+              <div class="card-footer">
+
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 4: Chinese New Year -->
+          <div class="card clickable-card" data-title="Chinese New Year" data-img="id-4.jpg" data-date="Feb 25, 2026"
+            data-time="20:00" data-location="Auditorium 1" data-price="Free">
+            <div class="card-img-wrapper">
+              <img src="images/id-4.jpg" alt="Chinese New Year" loading="lazy">
+              <span class="tag"
+                style="position: absolute; top: 15px; right: 15px; z-index: 2; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);">All</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Chinese New Year</h3>
+              <div class="show-meta">
+                <span><img src="images/gold-calendar-icon-3d.png" alt="calendar" class="icon"> Feb 25, 2026</span>
+                <span><img src="images/loo.time.png" alt="time" class="icon"> 20:00</span>
+                <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon">Auditorium 1</span>
+              </div>
+              <div class="card-footer">
+
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 5: Andha Yug -->
+          <div class="card clickable-card" data-title="Andha Yug" data-img="id-5.jpg" data-date="Feb 18, 2026"
+            data-time="18:00" data-location="Auditorium 1" data-price="Rs.1200">
+            <div class="card-img-wrapper">
+              <img src="images/id-5.jpg" alt="Andha Yug" loading="lazy">
+              <span class="tag"
+                style="position: absolute; top: 15px; right: 15px; z-index: 2; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);">Hindi</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Andha Yug</h3>
+              <div class="show-meta">
+                <span><img src="images/gold-calendar-icon-3d.png" alt="calendar" class="icon"> Feb 18, 2026</span>
+                <span><img src="images/loo.time.png" alt="time" class="icon"> 18:00</span>
+                <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon">Auditorium 2</span>
+              </div>
+              <div class="card-footer">
+
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 6: Court Martial -->
+          <div class="card clickable-card" data-title="Court Martial" data-img="id-6.jpg" data-date="Feb 22, 2026"
+            data-time="19:30" data-location="Auditorium 1" data-price="Rs.1000">
+            <div class="card-img-wrapper">
+              <img src="images/id-6.jpg" alt="Court Martial" loading="lazy">
+              <span class="tag"
+                style="position: absolute; top: 15px; right: 15px; z-index: 2; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);">Hindi</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Court Martial</h3>
+              <div class="show-meta">
+                <span><img src="images/gold-calendar-icon-3d.png" alt="calendar" class="icon"> Feb 22, 2026</span>
+                <span><img src="images/loo.time.png" alt="time" class="icon"> 19:30</span>
+                <span><img src="images/gold-location-icon-3d.png" alt="venue" class="icon">Auditorium 1</span>
+              </div>
+              <div class="card-footer">
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- STATIC HTML GRID END -->
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>TheatreShow.com</h4>
+          <p style="color: #aaa;">Celebrating the art of performance across languages and cultures.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shows.html">Shows</a></li>
+            <li><a href="auditoriums.html">Auditoriums</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Our Mission</h4>
+          <p style="color:#aaa;">
+            Bringing live theatre experiences to audiences worldwide through innovation and passion.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="text-center" style="border-top: 1px solid #222; padding-top: 20px; color: #555; font-size: 0.8rem;">
+      &copy; 2026 TheatreShow.com. All Rights Reserved.
+    </div>
+  </footer>
+
+  <!-- EVENT MODAL -->
+  <div id="event-modal" class="modal-overlay">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+
+      <img id="modal-img" src="" alt="" class="modal-img">
+
+      <div class="modal-body">
+        <h2 id="modal-title"></h2>
+
+        <p class="modal-meta">
+          <span id="modal-date"></span> |
+          <span id="modal-time"></span>
+        </p>
+
+        <p class="modal-location">
+          <span id="modal-location"></span>
+        </p>
+
+        <div class="modal-price" id="modal-price"></div>
+
+        <a href="booktickets.html" class="btn btn-primary" style="margin-top:20px;">
+          Book Tickets
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const modal = document.getElementById('event-modal');
+
+    document.querySelectorAll('.clickable-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.getElementById('modal-title').textContent = card.dataset.title;
+        document.getElementById('modal-img').src = 'images/' + card.dataset.img;
+        document.getElementById('modal-date').textContent = card.dataset.date;
+        document.getElementById('modal-time').textContent = card.dataset.time;
+        document.getElementById('modal-location').textContent = card.dataset.location;
+        document.getElementById('modal-price').textContent = card.dataset.price;
+
+        modal.classList.add('active');
+      });
+    });
+
+    document.querySelector('.modal-close').addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+
+    modal.addEventListener('click', e => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+  </script>
+
+
+
+</body>
+
+</html>
